@@ -13,4 +13,8 @@ public class RollConnectionControl {
  public static void chosenCustomer() {
 	 
  }
+ public static void noAccount(Stage stage , Scene scene) {
+	 stage.setScene(scene);
+	 
+ }
 }
