@@ -29,14 +29,14 @@ public class ManegmentView extends Application {
 	    cinemaInfoBox.setTop(cinemaInfo);
 	    
 	    
-	    Label roomNumber= new Label("Room");
+	    Label roomNumber= new Label("Select room");
 		Spinner<Integer> roomNum= new Spinner<>(0, num.getValue(), 0);
 		HBox numberRoom=new HBox(roomNumber, roomNum);
 		Label roomCapcity =new Label("room Capcity");
 		Spinner<Integer> currentRoomCapcity= new Spinner<>(0, 200, 0);
 		HBox capcity=new HBox(roomCapcity, currentRoomCapcity);
 		Button enterRoom = new Button("Enter");
-		enterRoom.setOnAction(x->CinemaController.RoomInfo());
+		enterRoom.setOnAction(x->CinemaController.RoomInfo(Cname.getText(),roomNum.getValue(), currentRoomCapcity.getValue()));
 		VBox roomCap=new VBox(numberRoom,capcity, enterRoom );
 		BorderPane roomInfo =new BorderPane();
 		roomInfo.setCenter(roomCap);
@@ -53,20 +53,32 @@ public class ManegmentView extends Application {
 	    HBox genre=new HBox(movieGenre,setMovieGenre );
 	    Label ageRating = new Label("Movie age-rating");
 	    Spinner<String> rating= new Spinner<>(0, 0, 0);
-	    HBox ratingBox=new HBox(ageRating,rating);
-	    Label movieRoom = new Label("Room");
-	    Spinner<Integer> roomScreen= new Spinner<>(0, num.getValue(), 0);
 	    Button enterMovie=new Button("Add Movie");
-	    enterMovie.setOnAction(x->CinemaController.MovieInfo());
-	    HBox screenRoom= new HBox(movieRoom, roomScreen, enterMovie);
+	    enterMovie.setOnAction(x->CinemaController.MovieInfo(setMovieName.getText(), setMovieGenre.getText(), rating.getValue().toString()));
+	    HBox ratingBox=new HBox(ageRating,rating);
 	    Label deleteMovie= new Label("Delete movie");
 	    Spinner<String> delete= new Spinner<>(0, 0, 0);
 	    Button enterDelete= new Button("Delete Movie");
 	    enterDelete.setOnAction(x->CinemaController.DeleteMovie());
 	    HBox deleteBox= new HBox(deleteMovie, delete, enterDelete );
-	    VBox screenInfo= new VBox(setMovieScreening,nameMovie, genre,ratingBox, screenRoom, deleteBox);
-	    VBox allMovieInfo =new VBox(cinInf,roomCap, screenInfo);
-        Scene page = new Scene(allMovieInfo, 400, 300);
+	    VBox movieBox= new VBox(setMovieScreening,nameMovie, genre,ratingBox, enterMovie, deleteBox);
+	    
+	    Label screening = new Label ("Manege screening");
+	    Label movie= new Label("Movie");
+	    Spinner <String> screenMovie =new Spinner<>(0,0,0);
+	    HBox screenBox= new HBox(movie,screenMovie );
+	    Label movieRoom = new Label("Room");
+	    Spinner<Integer> roomScreen= new Spinner<>(0, num.getValue(), 0);
+	    HBox RoomBox= new HBox(movieRoom,roomScreen );
+	    Label price = new Label("Price");
+	    Spinner<Integer> screenPrice= new Spinner<>(0, 200, 0);
+	    HBox priceBox= new HBox(price, screenPrice);
+	    Button enterScreen=new Button("Enter");
+	    enterScreen.setOnAction(x->CinemaController.ScreenMovie());
+	    VBox screenInfo= new VBox(screening, screenBox,RoomBox, priceBox, enterScreen );
+	    VBox allManegeInfo =new VBox(cinInf,roomCap, movieBox, screenInfo);
+	    allManegeInfo.setAlignment(Pos.CENTER);
+        Scene page = new Scene(allManegeInfo, 400, 300);
         
         
         manger.setScene(page);
