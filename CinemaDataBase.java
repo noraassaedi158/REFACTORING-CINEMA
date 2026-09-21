@@ -85,7 +85,23 @@ public class cinemaDataBase {
 		}
 
 	}
-	public static Boolean deleteMovie() {
+	public static Boolean deleteMovie(String name) {
+		try(PreparedStatement getID = DatabaseConnection.getConnection().prepareStatement("SELECT movie_id FROM movie WHERE name= (?)")){
+			getID.setString(1, name);
+			ResultSet movieID= getID.executeQuery();
+		if (movieID.next()) {
+			try(PreparedStatement delete = DatabaseConnection.getConnection().prepareStatement("DELETE FROM movie WHERE movie_id =(?)")){
+				delete.setInt(1 , movieID.getInt("movie_id ") );
+				delete.executeUpdate();
+				return true; }}
+		else{ return false;
+			}
+		}
 		
+		catch(Exception e) {
+			return false;
+		}
+				
+} 
 	}
-}
+
