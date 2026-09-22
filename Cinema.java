@@ -14,6 +14,9 @@ public void name(String name, int num) {
 	}
 	else {
 		cinemaDataBase.insertCinema(name.toLowerCase());
+		for (int i=1; i<=num; i++) {
+			rooms.add(new Room(i));
+		}
 	}
 }
 public void setCapcity(int num, int cap) {
