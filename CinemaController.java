@@ -6,34 +6,44 @@ import java.util.ArrayList;
 import Model.*;
 
 public class CinemaController {
-	private static Cinema cin = new Cinema();
-	private static Movie movie= new Movie();
-	private static ageRating age[];
+	private  Cinema cin = new Cinema();
+	private  Movie movie= new Movie();
+    private  ageRating age[];
+    private String username;
+public void connectCin(String username) {
+	this.username=username;
 	
-public static int getRoomNumber() {
+}
+public String getUser() {
+	return username;
+}
+public  int getRoomNumber() {
 	return cin.getRooms().size();
 }
-public static ageRating[] getRating() {
+public  ageRating[] getRating() {
 	age=ageRating.values();
 	return age;
 }
-public static void CinemaInfo(String name, int num) { 
-	cin.name(name, num);
+public  void CinemaInfo(String name, int num) { 
+	cin.name(name, num, getUser() );
 	
 }
-public static void RoomInfo(int roomNum, int capRoom) {
+public  void RoomInfo(int roomNum, int capRoom) {
 	cin.setCapcity( roomNum,capRoom);
 	
 }
-public static void MovieInfo( String movieNames, String Genre, ageRating age) {
+public  void MovieInfo( String movieNames, String Genre, ageRating age) {
 	String ages= age.name();
 	movie.setMovieInfo(cin, movieNames, Genre, ages );
 	
 }
-public static ArrayList movies() {
-	
+public  ArrayList<String> movies() {
+	return movie.movies(cin.getName()) ;
 }
-public static void DeleteMovie(String name, String cinemaName) {
+public  ArrayList<Integer> rooms(){
+	return cin.getRooms();
+}
+public void DeleteMovie(String name, String cinemaName) {
 	movie.delete(name, cinemaName);
 	
 }
