@@ -15,6 +15,7 @@ public class AuthenticationControl {
 	public static void accountCheck(String username, String password, Stage stage) {
 		if (Authentication.CheckAccount(username, password)){
 			ManegmentView manege = new ManegmentView();
+			manege.connectTo(username);
 			manege.start(stage);
 		}
 		else {
