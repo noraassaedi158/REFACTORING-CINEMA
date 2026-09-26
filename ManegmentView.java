@@ -1,7 +1,10 @@
 package View;
+import java.util.ArrayList;
+
 import Controller.*;
 import javafx.collections.FXCollections;
 import javafx.scene.control.SpinnerValueFactory;
+import Model.Movie;
 import Model.ageRating;
 import javafx.application.*;
 import javafx.stage.*;
@@ -14,6 +17,10 @@ import javafx.scene.input.*;
 import javafx.geometry.*;
 import javafx.collections.*;
 public class ManegmentView extends Application {
+	CinemaController CinemaController= new CinemaController();
+	public void connectTo(String username) {
+		CinemaController.connectCin(username);
+	}
     public void start(Stage manger) {
     	ageRating[] ratings = CinemaController.getRating();
 		Label cinemaInfo = new Label("Cinema info");
@@ -27,16 +34,13 @@ public class ManegmentView extends Application {
 		HBox number=new HBox(RoomNumber, num);
 		number.setSpacing(30);
 		Button enterCinInfo=new Button("Enter");
-		enterCinInfo.setOnAction(x->CinemaController.CinemaInfo((String)Cname.getText(), (int)num.getValue()));
 		VBox cinInf=new VBox(name,number, enterCinInfo);
 		cinInf.setSpacing(10);
 	    BorderPane cinemaInfoBox = new BorderPane();
 	    cinemaInfoBox.setCenter(cinInf);
 	    cinemaInfoBox.setTop(cinemaInfo);
-	    
-	    
 	    Label roomNumber= new Label("Select room");
-		Spinner<Integer> roomNum= new Spinner<>(0, CinemaController.getRoomNumber(), 0);
+		Spinner<Integer> roomNum= new Spinner<>();
 		HBox numberRoom=new HBox(roomNumber, roomNum);
 		numberRoom.setSpacing(30);
 		Label roomCapcity =new Label("room Capcity");
@@ -49,8 +53,6 @@ public class ManegmentView extends Application {
 		roomCap.setSpacing(10);
 		BorderPane roomInfo =new BorderPane();
 		roomInfo.setCenter(roomCap);
-		
-		
 	    Label setMovieScreening=new Label("Movie screening");
 	    Label movieName = new Label("Movie name");
 	    TextField setMovieName= new TextField();
@@ -64,6 +66,7 @@ public class ManegmentView extends Application {
 	    genre.setSpacing(30);
 	    Label ageRating = new Label("Movie age-rating");
 	    Spinner<ageRating> rating= new Spinner < >( );
+	    //remember listSpinnerValue factory wants Observable list not just a list, which is a list Javafx knows when its changing
 	    rating.setValueFactory(
 	    	    new SpinnerValueFactory.ListSpinnerValueFactory<>(
 	    	        FXCollections.observableArrayList(ratings)
@@ -74,7 +77,7 @@ public class ManegmentView extends Application {
 	    HBox ratingBox=new HBox(ageRating,rating);
 	    ratingBox.setSpacing(30);
 	    Label deleteMovie= new Label("Delete movie");
-	    Spinner<String> delete= new Spinner<>(0, 0, 0);
+	    Spinner<String> delete= new Spinner<>();
 	    Button enterDelete= new Button("Delete");
 	    enterDelete.setOnAction(x->CinemaController.DeleteMovie((String) delete.getValue(), (String) Cname.getText()));
 	    HBox deleteBox= new HBox(deleteMovie, delete, enterDelete );
@@ -83,11 +86,11 @@ public class ManegmentView extends Application {
 	    movieBox.setSpacing(10);
 	    Label screening = new Label ("Manege screening");
 	    Label movie= new Label("Movie");
-	    Spinner <String> screenMovie =new Spinner<>(0,0,0);
+	    Spinner <String> screenMovie =new Spinner<>();
 	    HBox screenBox= new HBox(movie,screenMovie );
 	    screenBox.setSpacing(30);
 	    Label movieRoom = new Label("Room");
-	    Spinner<Integer> roomScreen= new Spinner<>(0, num.getValue(), 0);
+	    Spinner<Integer> roomScreen= new Spinner<>();
 	    HBox RoomBox= new HBox(movieRoom,roomScreen );
 	    RoomBox.setSpacing(30);
 	    Label time= new Label("Time");
@@ -113,7 +116,25 @@ public class ManegmentView extends Application {
 	    allManegeInfo.setSpacing(20.0);
 	    allManegeInfo.setAlignment(Pos.CENTER);
         Scene page = new Scene(allManegeInfo, 700, 700);
-        
+        enterCinInfo.setOnAction(x->{CinemaController.CinemaInfo((String)Cname.getText(), (int)num.getValue());  roomNum.setValueFactory(
+	    	    new SpinnerValueFactory.ListSpinnerValueFactory<>(
+		    	        FXCollections.observableArrayList(CinemaController.rooms())
+		    	    ));   roomScreen.setValueFactory(
+		    	    	    new SpinnerValueFactory.ListSpinnerValueFactory<>(
+		    		    	        FXCollections.observableArrayList(CinemaController.rooms())
+		    		    	    )
+		    		    	);
+	    	    });
+        enterMovie.setOnAction(x->{CinemaController.MovieInfo((String) setMovieName.getText(), (String) setMovieGenre.getText(),  rating.getValue());
+        delete.setValueFactory(
+	    	    new SpinnerValueFactory.ListSpinnerValueFactory<>(
+	    	        FXCollections.observableArrayList(CinemaController.movies())
+	    	    )
+	    	); screenMovie.setValueFactory(
+		    	    new SpinnerValueFactory.ListSpinnerValueFactory<>(
+			    	        FXCollections.observableArrayList(CinemaController.movies())
+			    	    )
+			    	);});
         
         manger.setScene(page);
         manger.setTitle("Cinema");
