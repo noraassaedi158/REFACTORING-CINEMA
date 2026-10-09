@@ -1,10 +1,10 @@
 package View;
-import java.util.ArrayList;
+
 
 import Controller.*;
 import javafx.collections.FXCollections;
 import javafx.scene.control.SpinnerValueFactory;
-import Model.Movie;
+
 import Model.ageRating;
 import javafx.application.*;
 import javafx.stage.*;
@@ -12,10 +12,7 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.geometry.*;
-import javafx.scene.paint.*;
-import javafx.scene.input.*;
-import javafx.geometry.*;
-import javafx.collections.*;
+
 public class ManegmentView extends Application {
 	CinemaController CinemaController= new CinemaController();
 	public void connectTo(String username) {
@@ -95,14 +92,23 @@ public class ManegmentView extends Application {
 	    RoomBox.setSpacing(30);
 	    Label time= new Label("Time");
 	    Spinner <Integer> hours= new Spinner<>(0, 12,0);
+	    hours.getEditor().setText("Hours");
 	    Spinner <Integer> minutes=new Spinner<>(0,60, 0);
-	    HBox screenTime= new HBox(time, hours,minutes );
+	    minutes.getEditor().setText("minutes");
+	    HBox cleanTime=new HBox(hours,minutes);
+	    cleanTime.setSpacing(0);
+	    HBox screenTime= new HBox(time, cleanTime );
 	    screenTime.setSpacing(30);
 	    Label date = new Label("Date");
 	    Spinner <Integer> year= new Spinner<>(0, 3000, 0);
+	    year.getEditor().setText("Year");
 	    Spinner <Integer> month= new Spinner<>(0, 12, 0);
+	    month.getEditor().setText("month");
 	    Spinner <Integer> day= new Spinner<>(0, 31, 0);
-	    HBox dateScreen= new HBox(date, year, month, day );
+	    day.getEditor().setText("day");
+	    HBox cleanDate=new HBox(year, month, day);
+	    cleanDate.setSpacing(0);
+	    HBox dateScreen= new HBox(date, cleanDate );
 	    dateScreen.setSpacing(30);
 	    Label price = new Label("Price");
 	    Spinner<Integer> screenPrice= new Spinner<>(0, 200, 0);
@@ -110,12 +116,16 @@ public class ManegmentView extends Application {
 	    priceBox.setSpacing(30);
 	    Button enterScreen=new Button("Enter");
 	    enterScreen.setOnAction(x->ScreeningController.ScreenMovie((String)Cname.getText(),(String) screenMovie.getValue(),(int) roomScreen.getValue(), (int) hours.getValue(), (int) minutes.getValue(),(int) year.getValue(), (int) month.getValue(), (int) day.getValue(),   (int) screenPrice.getValue()));
-	    VBox screenInfo= new VBox(screening, screenBox,RoomBox,screenTime, dateScreen, priceBox, enterScreen);
+	    VBox screenInfo= new VBox(screening, screenBox,RoomBox,screenTime, dateScreen, priceBox);
+	    Button screeningNow= new Button("Screening");
+	    HBox buttons=new HBox (enterScreen, screeningNow);
+	    buttons.setSpacing(400);
 	    screenInfo.setSpacing(10);
-	    VBox allManegeInfo =new VBox(cinInf,roomCap, movieBox, screenInfo);
+
+	    VBox allManegeInfo =new VBox(cinInf,roomCap, movieBox, screenInfo, buttons);
 	    allManegeInfo.setSpacing(20.0);
 	    allManegeInfo.setAlignment(Pos.CENTER);
-        Scene page = new Scene(allManegeInfo, 700, 700);
+        Scene page = new Scene(allManegeInfo, 650, 750);
         enterCinInfo.setOnAction(x->{CinemaController.CinemaInfo((String)Cname.getText(), (int)num.getValue());  roomNum.setValueFactory(
 	    	    new SpinnerValueFactory.ListSpinnerValueFactory<>(
 		    	        FXCollections.observableArrayList(CinemaController.rooms())
@@ -135,7 +145,9 @@ public class ManegmentView extends Application {
 			    	        FXCollections.observableArrayList(CinemaController.movies())
 			    	    )
 			    	);});
-        
+        screeningNow.setOnAction(x-> {screeningView view = new screeningView();
+        view.start(manger);}
+        );
         manger.setScene(page);
         manger.setTitle("Cinema");
         manger.show();
