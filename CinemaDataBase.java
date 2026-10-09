@@ -108,11 +108,11 @@ public class cinemaDataBase {
 			getID.setString(1, cin);
 			ResultSet cinemaExist= getID.executeQuery();
 			if (cinemaExist.next()) {
-				try(PreparedStatement roomsID = DatabaseConnection.getConnection().prepareStatement("SELECT room_ID FROM room WHERE cinema_id= (?)")){
+				try(PreparedStatement roomsID = DatabaseConnection.getConnection().prepareStatement("SELECT room_num FROM room WHERE cinema_id= (?)")){
 					roomsID.setInt(1, cinemaExist.getInt( "cinema_id"));
 					ResultSet allRooms =roomsID.executeQuery();
 					while(allRooms.next()) {
-						int room= allRooms.getInt("room_ID");
+						int room= allRooms.getInt("room_num");
 						rooms.add(room);
 					}
 			} } }
