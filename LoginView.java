@@ -36,9 +36,9 @@ public class LoginView extends Application{
 		
 		noAccount.setOnMouseClicked(click -> {RollConnectionControl.noAccount(login, makeAccount);} );
 		user.setOnAction(enter->{pass.requestFocus();});
-		pass.setOnAction(enter->{AuthenticationControl.accountCheck(user.getText(), pass.getText());});
+		pass.setOnAction(enter->{AuthenticationControl.accountCheck(user.getText(), pass.getText(), login);});
 		newUser.setOnAction(enter->{newPass.requestFocus();});
-		newPass.setOnAction(enter->{AuthenticationControl.newAccountSave(newUser.getText(), newPass.getText());});
+	 	newPass.setOnAction(enter->{AuthenticationControl.newAccountSave(newUser.getText(), newPass.getText(), login);});
 		
 		
 		login.setScene(allLogin);
