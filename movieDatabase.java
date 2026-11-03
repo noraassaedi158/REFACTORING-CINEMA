@@ -7,12 +7,13 @@ import java.util.ArrayList;
 
 import Model.Cinema;
 import Model.Movie;
-
+import Model.ageRating;
 public class movieDatabase {
 	private String SQL1="SELECT movie_id FROM movie WHERE movie_name=(?) AND cinema_id= (?)";
 	private String SQL2="INSERT INTO movie(cinema_id, movie_name, movie_genre, age_rating) VALUES (?,?,?,?)";
 	private String SQL3="DELETE FROM movie WHERE cinema_id=(?) AND movie_id=(?)";
-	private String SQL4="SELECT movie_name, movie_genre, age_rating FROM movie WHERE cinema_id=(?)";
+	private String SQL4="SELECT cinema_id, movie_id, movie_name, movie_genre, age_rating FROM movie WHERE cinema_id=(?)";
+	
 	public int getMovieID(int cinema_id, String movieName) {
 		int movieId=0;
 		try(PreparedStatement pp1=DatabaseConnection.getConnection().prepareStatement(SQL1)){
@@ -35,7 +36,7 @@ public class movieDatabase {
 	     		pp1.setInt(1, cinemaId);
 	     		pp1.setString(2, movie.getName());
 				pp1.setString(3, movie.getGenre());
-				pp1.setString(4, movie.getAge());
+				pp1.setString(4, movie.getAge().name());
 	     		int created=pp1.executeUpdate();
 	     		return created==1? true:false; 
 	     	}
@@ -57,15 +58,17 @@ public class movieDatabase {
 		}
 }
 	public ArrayList<Movie> getMovies(int cinemaId){
-		ArrayList Movie=new ArrayList<>();
+		ArrayList<Movie> Movie=new ArrayList<>();
 		try(PreparedStatement getID = DatabaseConnection.getConnection().prepareStatement(SQL4)){
 			getID.setInt(1, cinemaId);
 			ResultSet getMovie= getID.executeQuery();
 			while (getMovie.next()) {
 			     String name= getMovie.getString("movie_name");
 			     String genre= getMovie.getString("movie_genre");
-			     String age= getMovie.getString("age_rating");
-			     Movie movie= new Movie(name, genre, age);
+			     String age=  getMovie.getString("age_rating");
+			     ageRating ageRatingEnum = ageRating.valueOf(age); 
+			     int movieId=getMovie.getInt("movie_id");
+			     Movie movie= new Movie(movieId, cinemaId, name, genre, ageRatingEnum);
 			     Movie.add(movie);
 					}
 			}  
