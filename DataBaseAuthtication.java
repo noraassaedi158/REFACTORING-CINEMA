@@ -12,12 +12,13 @@ public class DataBaseAuthentication{
         return true;
     }
    catch(Exception e) {
+	   e.printStackTrace();
 	  return false;
 }
 }
 public static Boolean CheckTheAccount(String username, String password) {
 		
-		try (PreparedStatement makeUser=DatabaseConnection.getConnection().prepareStatement("SELECT username, password FROM account WHERE username = ? AND password =?");){
+		try (PreparedStatement makeUser=DatabaseConnection.getConnection().prepareStatement("SELECT username, password FROM account WHERE username = (?) AND password =(?)");){
 	          makeUser.setString(1, username);
 	          makeUser.setString(2, password);
 	          ResultSet acc=makeUser.executeQuery();
@@ -30,7 +31,7 @@ public static Boolean CheckTheAccount(String username, String password) {
 		
 	}
 		catch(Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 			return false;
 	}
 
