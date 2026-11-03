@@ -1,37 +1,32 @@
 package Model;
-
-import java.util.ArrayList;
-
-import Model.database.cinemaDataBase;
-
 public class Movie {
 	private String title;
-	private Room room;
 	private String Genre;
-	private String age;
-	private double price;
-	private String cinemaName;
-    public Movie(String cinemaName,String movieNames, String Genre, String age ) {
-    	title=movieNames;
+	private ageRating age;
+	private int cinemaId;
+	private int movieID;
+    public Movie(int movieID, int cinemaID, String movieName, String Genre, ageRating age ) {
+    	this.cinemaId= cinemaID;
+    	this.movieID= movieID;
+    	this.title=movieName;
 		this.Genre=Genre;
 		this.age=age;
     }
+	public String getName() {
+		return title;
+	}
+	public String getGenre() {
+		return Genre;
+	}
+	public ageRating getAge() {
+		return age;
+	}
+	public int getMovieID() {
+		return movieID;
+	}
+	public int getCinemaId() {
+		return cinemaId;
+	}
 	
-	public Movie() {
-		title=null;
-		room=null;
-	}
-	public void setMovieInfo(Cinema cin, String movieNames, String Genre, String age) {
-		cinemaDataBase.createMovie( cin, movieNames, Genre, age);
-		title=movieNames;
-		this.Genre=Genre;
-		this.age=age;
-	}
-	public void delete(String name, String cinemaMovie) {
-		cinemaDataBase.deleteMovie(name, cinemaMovie);
-	}
-	public ArrayList movies(Cinema cin) {
-		
-	}
-
+	
 }
