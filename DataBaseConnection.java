@@ -11,29 +11,37 @@ public class DatabaseConnection {
 		 {
 		        try {
 		        	Class.forName("com.mysql.cj.jdbc.Driver");
-		        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "");
-		        	
-		        	
+		        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "EmanEman0987@");
 		        }
-		        catch(Exception e) {
-		        	System.out.println(e);
-		        }
-		          try {
-		        	 state= this.getConnection().createStatement();
-					state.executeUpdate("CREATE DATABASE IF NOT EXISTS cinema");
-				} catch (SQLException e) {
+		        catch(SQLException e) {
+		        	 e.printStackTrace();
+		        } catch (ClassNotFoundException e) {
 					
 					e.printStackTrace();
 				}
+		          try {
+		        	 state= DatabaseConnection.getConnection().createStatement();
+		        	 System.out.println(connection);
+					state.executeUpdate("CREATE DATABASE IF NOT EXISTS cinema");
+				} catch (NullPointerException e) {
+					
+					e.printStackTrace();
+				}
+		          catch (SQLException e) {
+						
+						e.printStackTrace();
+					}
 			        try {
 			        	Class.forName("com.mysql.cj.jdbc.Driver");
-			        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "");
+			        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "EmanEman0987@");
 			        
 			        	
 			        }
-			        catch(Exception e) {
-			        	System.out.println(e);
-			        }
+			        catch(SQLException e) {
+			        	 e.printStackTrace();
+			        } catch (ClassNotFoundException e) {
+						e.printStackTrace();
+					}
 		
 		 }
 		 public static Connection getConnection() {
