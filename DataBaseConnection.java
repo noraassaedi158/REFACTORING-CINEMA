@@ -11,7 +11,7 @@ public class DatabaseConnection {
 		 {
 		        try {
 		        	Class.forName("com.mysql.cj.jdbc.Driver");
-		        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "EmanEman0987@");
+		        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306", "root", "@");
 		        }
 		        catch(SQLException e) {
 		        	 e.printStackTrace();
@@ -33,7 +33,7 @@ public class DatabaseConnection {
 					}
 			        try {
 			        	Class.forName("com.mysql.cj.jdbc.Driver");
-			        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "EmanEman0987@");
+			        	connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "@");
 			        
 			        	
 			        }
