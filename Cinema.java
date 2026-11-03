@@ -2,40 +2,31 @@ package Model;
 import Model.database.*;
 import java.util.ArrayList;
 public class Cinema {
-	private String name;
-	private ArrayList<Room> rooms = new ArrayList <>();
-
-public void name(String name, int num, String username) {
-	this.name= name;
-	if (cinemaDataBase.CinemaExists(name.toLowerCase(), username)) {
-		for (int i=1; i<=num; i++) {
-			rooms.add(new Room(i));
-			
-		}
-		cinemaDataBase.makeRoom(this);
+	private String cinemaName;
+	private int userId;
+	private int cinemaId;
+	private ArrayList<Room> rooms= new ArrayList<>();
+	public Cinema(int userId, int cinemaId, String cinemaName) {
+		this.userId=userId;
+		this.cinemaId=cinemaId;
+		this.cinemaName=cinemaName;
+				
 	}
-	else {
-		
-		cinemaDataBase.insertCinema(name.toLowerCase(), username);
-		for (int i=1; i<=num; i++) {
-			rooms.add(new Room(i));
-		}
-		cinemaDataBase.makeRoom(this);
+	public int getCinId() {
+		return cinemaId;
 	}
-}
-public void setCapcity(int num, int cap) {
-	rooms.get(num-1).setCap(cap);
-	cinemaDataBase.fillRoom(this, num, cap);
-}
-public  String getName() {
-	return name;
-}
-public ArrayList<Integer> getRooms(){
-	return cinemaDataBase.getRooms(this.getName());
-}
+	public String getCinemaName() {
+		return cinemaName;
+	}
+	public int getUserId(String cinemaName) { 
+		return userId;
+	}
+	public ArrayList<Room> getRooms(){
+		return rooms;
+	}
+	
+	
 
-public ArrayList<Room> getRoomsData(){
-	return rooms;
-}
+
 
 }
